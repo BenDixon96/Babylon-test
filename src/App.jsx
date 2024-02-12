@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FreeCamera, Vector3, HemisphericLight, MeshBuilder, FlyCamera } from "@babylonjs/core";
 import SceneComponent from './components/sceneComponent';
+import { AdvancedDynamicTexture, Button } from "@babylonjs/gui/2D";
 import "./App.css";
 
 class BabylonScene extends React.Component {
@@ -15,7 +16,7 @@ class BabylonScene extends React.Component {
   }
 
   onSceneReady = (scene) => {
-    const camera = new FlyCamera("camera1", new Vector3(0, 1010, -10), scene);
+    const camera = new FlyCamera("camera1", new Vector3(0, 2010, -10), scene);
     camera.checkCollisions = true;
     camera.maxZ = 10000;
     camera.speed = 1
@@ -34,11 +35,29 @@ class BabylonScene extends React.Component {
     box.position.x = 10;
     box.checkCollisions = true;
 
+    const advancedTexture = AdvancedDynamicTexture.CreateFullscreenUI("UI");
+
+    // Create a button
+    const button = Button.CreateSimpleButton("clickButton", "more speed");
+    button.width = "150px";
+    button.height = "40px";
+    button.color = "white";
+    button.background = "red";
+    button.horizontalAlignment = Button.HORIZONTAL_ALIGNMENT_LEFT;
+    button.verticalAlignment = Button.VERTICAL_ALIGNMENT_TOP;
+    button.onPointerUpObservable.add(() => this.click());
+    advancedTexture.addControl(button);
+
+
+    
+
+
+
     const ground = MeshBuilder.CreateGroundFromHeightMap("ground", './heightmap.jpeg', {
       width: 20000,
       height: 20000,
       subdivisions: 350,
-      maxHeight: 1000,
+      maxHeight: 2000,
       minHeight: 0,
       wireframe: true
     }, scene);
@@ -94,7 +113,7 @@ class BabylonScene extends React.Component {
         <p1>hello</p1>
         <div>Camera Position: {this.state.cameraPosition && this.state.cameraPosition.toString()}</div>
         <div>Camera speed: {this.state.camera && this.state.camera.speed.toString()}</div>
-        <button onClick={this.click}> Click </button>
+       
         <SceneComponent antialias onSceneReady={this.onSceneReady} onRender={this.onRender} id="my-canvas" />
       </div>
     );
