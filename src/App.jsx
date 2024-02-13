@@ -11,6 +11,7 @@ class BabylonScene extends React.Component {
       box: null,
       camera: null,
       cameraPosition: null,
+      fog: 0.0003
       
     };
   }
@@ -18,8 +19,10 @@ class BabylonScene extends React.Component {
   onSceneReady = (scene) => {
     const camera = new FlyCamera("camera1", new Vector3(0, 2010, -10), scene);
     camera.checkCollisions = true;
-    camera.maxZ = 10000;
-    camera.speed = 1
+    camera.maxZ = 3000;
+    camera.speed = 10
+
+    
     
     camera.setTarget(Vector3.Zero());
     console.log(camera)
@@ -49,6 +52,17 @@ class BabylonScene extends React.Component {
     advancedTexture.addControl(button);
 
 
+
+    const sightButton = Button.CreateSimpleButton("clickButton", "more sight");
+    sightButton.width = "150px";
+    sightButton.height = "40px";
+    sightButton.color = "white";
+    sightButton.background = "red";
+    sightButton.horizontalAlignment = Button.HORIZONTAL_ALIGNMENT_RIGHT;
+   
+    sightButton.onPointerUpObservable.add(() => this.clickAddSight());
+    advancedTexture.addControl(sightButton);
+
     
 
 
@@ -68,7 +82,8 @@ class BabylonScene extends React.Component {
     this.setState({
       box: box,
       camera: camera,
-      cameraPosition: camera.position.clone(), // initial camera position
+      cameraPosition: camera.position.clone(),
+      
     });
   };
   
@@ -100,7 +115,12 @@ class BabylonScene extends React.Component {
   };
   
   click = (event) => {
-    this.state.camera.speed += 1
+    this.state.camera.speed += 10
+   
+  }
+  clickAddSight = (event) => {
+    this.state.camera.maxZ += 1000
+    this.state.fog -= 1
    
   }
  
@@ -113,8 +133,10 @@ class BabylonScene extends React.Component {
         <p1>hello</p1>
         <div>Camera Position: {this.state.cameraPosition && this.state.cameraPosition.toString()}</div>
         <div>Camera speed: {this.state.camera && this.state.camera.speed.toString()}</div>
+        <div>Camera sight: {this.state.camera && this.state.camera.maxZ.toString()}</div>
+        <div>fog: {this.state.fog && this.state.fog.toString()}</div>
        
-        <SceneComponent antialias onSceneReady={this.onSceneReady} onRender={this.onRender} id="my-canvas" />
+        <SceneComponent antialias onSceneReady={this.onSceneReady} onRender={this.onRender} fog={this.state.fog} id="my-canvas" />
       </div>
     );
   }

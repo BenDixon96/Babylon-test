@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { Engine, Scene, Color3 } from "@babylonjs/core";
 
-export default ({ antialias, engineOptions, adaptToDeviceRatio, sceneOptions, onRender, onSceneReady, ...rest }) => {
+export default ({ antialias, engineOptions, adaptToDeviceRatio, sceneOptions, onRender, onSceneReady, fog, ...rest }) => {
   const reactCanvas = useRef(null);
 
   const [position, setPostion] = useState(null)
+  const [stateFog, setSateFog] = useState(fog)
   // set up basic engine and scene
   useEffect(() => {
     const { current: canvas } = reactCanvas;
@@ -15,8 +16,9 @@ export default ({ antialias, engineOptions, adaptToDeviceRatio, sceneOptions, on
     const scene = new Scene(engine, sceneOptions);
     scene.collisionsEnabled = true;
     scene.fogEnabled = true
-    scene.fogDensity = 0.0005
-    scene.fogStart = 0
+    scene.fogDensity = stateFog
+    console.log(fog)
+    scene.fogStart = 10
    
     scene.fogColor = {r: 0.6, g: 0.2, b: 0.1 }
     scene.fogMode = Scene.FOGMODE_EXP2;
@@ -54,6 +56,7 @@ export default ({ antialias, engineOptions, adaptToDeviceRatio, sceneOptions, on
   }, [antialias, engineOptions, adaptToDeviceRatio, sceneOptions, onRender, onSceneReady]);
 
   return  <div>
+    <p>what{fog}</p>
    
     <canvas ref={reactCanvas} {...rest} />
     
