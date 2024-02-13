@@ -11,7 +11,7 @@ class BabylonScene extends React.Component {
     this.state = {
       camera: null,
       cameraPosition: null,
-      fog: 0.0006
+      fog: 0.0004
       
     };
   }
