@@ -39,9 +39,14 @@ class BabylonScene extends React.Component {
     
     sphere.parent = camera
     // sphere.postion.Z = 10
-    sphere.position.z = 10;
+    sphere.position.z = 5;
+    sphere.position.y = - 2
+    sphere.scaling.y = 0.1
+    sphere.scaling._x = 4.1
+    sphere.scaling._z = 1
+
     const advancedTexture = AdvancedDynamicTexture.CreateFullscreenUI("UI");
-    console.log("sphere", sphere)
+    console.log("sphere", sphere, "parent", sphere.parent)
 
     // Create a button
     const button = Button.CreateSimpleButton("clickButton", "more speed");
@@ -62,6 +67,7 @@ class BabylonScene extends React.Component {
     sightButton.color = "white";
     sightButton.background = "red";
     sightButton.horizontalAlignment = Button.HORIZONTAL_ALIGNMENT_RIGHT;
+    sightButton.verticalAlignment = Button.VERTICAL_ALIGNMENT_TOP;
    
     sightButton.onPointerUpObservable.add(() => this.clickAddSight());
     advancedTexture.addControl(sightButton);
