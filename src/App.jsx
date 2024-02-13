@@ -8,18 +8,18 @@ class BabylonScene extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      box: null,
       camera: null,
       cameraPosition: null,
-      fog: 0.0003
+      fog: 0.0006
       
     };
   }
 
   onSceneReady = (scene) => {
-    const camera = new FlyCamera("camera1", new Vector3(0, 2010, -10), scene);
+    var camera = new FlyCamera("camera1", new Vector3(0, 2010, -10), scene);
     camera.checkCollisions = true;
     camera.maxZ = 3000;
+    camera.minZ = 0
     camera.speed = 10
 
     
@@ -33,12 +33,15 @@ class BabylonScene extends React.Component {
     const light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
     light.intensity = 0.7;
 
-    const box = MeshBuilder.CreateBox("box", { size: 2 }, scene);
-    box.position.y = 1010;
-    box.position.x = 10;
-    box.checkCollisions = true;
-
+    var sphere = MeshBuilder.CreateSphere("sphere", {diameter: 2, segments: 32}, scene);
+    
+   
+    
+    sphere.parent = camera
+    // sphere.postion.Z = 10
+    sphere.position.z = 10;
     const advancedTexture = AdvancedDynamicTexture.CreateFullscreenUI("UI");
+    console.log("sphere", sphere)
 
     // Create a button
     const button = Button.CreateSimpleButton("clickButton", "more speed");
@@ -80,7 +83,6 @@ class BabylonScene extends React.Component {
     
     
     this.setState({
-      box: box,
       camera: camera,
       cameraPosition: camera.position.clone(),
       
@@ -89,9 +91,17 @@ class BabylonScene extends React.Component {
   
   
   onRender = (scene) => {
-    if (this.state.box && this.state.camera) {
+    if (this.state.camera) {
       const deltaTimeInMillis = scene.getEngine().getDeltaTime();
-      // Perform any updates using this.state.box or this.state.camera
+      // Perform any updates using this.state.sphere or this.state.camera
+    //   const distanceInFront = 5;
+
+    // // Calculate the new position based on the camera's direction
+    //   const newspherePosition = this.state.camera.getFrontPosition(distanceInFront);
+
+
+    //   this.state.sphere.position.copyFrom(this.state.camera.position);
+    //   this.state.sphere.rotation.copyFrom(this.state.camera.rotation);
 
       // Update camera position in state
       this.setState({
@@ -130,11 +140,12 @@ class BabylonScene extends React.Component {
   render() {
     return (
       <div id="scene">
-        <p1>hello</p1>
+        
         <div>Camera Position: {this.state.cameraPosition && this.state.cameraPosition.toString()}</div>
         <div>Camera speed: {this.state.camera && this.state.camera.speed.toString()}</div>
         <div>Camera sight: {this.state.camera && this.state.camera.maxZ.toString()}</div>
         <div>fog: {this.state.fog && this.state.fog.toString()}</div>
+        <div>sphere: {this.state.sphere && this.state.sphere.position.toString()}</div>
        
         <SceneComponent antialias onSceneReady={this.onSceneReady} onRender={this.onRender} fog={this.state.fog} id="my-canvas" />
       </div>

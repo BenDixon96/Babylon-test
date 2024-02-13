@@ -18,11 +18,12 @@ export default ({ antialias, engineOptions, adaptToDeviceRatio, sceneOptions, on
     scene.fogEnabled = true
     scene.fogDensity = stateFog
     console.log(fog)
-    scene.fogStart = 10
+    scene.fogStart = 0
    
     scene.fogColor = {r: 0.6, g: 0.2, b: 0.1 }
     scene.fogMode = Scene.FOGMODE_EXP2;
     scene.clearColor = new Color3(0.6, 0.2, 0.1)
+  
     
     
     console.log(scene)
@@ -54,9 +55,10 @@ export default ({ antialias, engineOptions, adaptToDeviceRatio, sceneOptions, on
       }
     };
   }, [antialias, engineOptions, adaptToDeviceRatio, sceneOptions, onRender, onSceneReady]);
+ 
 
   return  <div>
-    <p>what{fog}</p>
+
    
     <canvas ref={reactCanvas} {...rest} />
     
