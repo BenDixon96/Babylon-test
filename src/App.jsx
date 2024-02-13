@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { FreeCamera, Vector3, HemisphericLight, MeshBuilder, FlyCamera } from "@babylonjs/core";
+import { FreeCamera, Vector3, HemisphericLight, MeshBuilder, FlyCamera, Texture, StandardMaterial } from "@babylonjs/core";
 import SceneComponent from './components/sceneComponent';
 import { AdvancedDynamicTexture, Button } from "@babylonjs/gui/2D";
+
 import "./App.css";
 
 class BabylonScene extends React.Component {
@@ -44,6 +45,9 @@ class BabylonScene extends React.Component {
     sphere.scaling.y = 0.1
     sphere.scaling._x = 4.1
     sphere.scaling._z = 1
+    const sphereMaterial = new StandardMaterial()
+    sphereMaterial.diffuseTexture = new Texture('./carpet.jpeg')
+    sphere.material = sphereMaterial
 
     const advancedTexture = AdvancedDynamicTexture.CreateFullscreenUI("UI");
     console.log("sphere", sphere, "parent", sphere.parent)
