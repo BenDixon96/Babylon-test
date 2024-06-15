@@ -23,10 +23,15 @@ export default ({ antialias, engineOptions, adaptToDeviceRatio, sceneOptions, on
     scene.fogColor = {r: 0.6, g: 0.2, b: 0.1 }
     scene.fogMode = Scene.FOGMODE_EXP2;
     scene.clearColor = new Color3(0.6, 0.2, 0.1)
+
+    
   
     
     
-    console.log(scene)
+    
+
+
+
     if (scene.isReady()) {
       onSceneReady(scene);
       
